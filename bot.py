@@ -1,10 +1,11 @@
-import time
-import telebot
 import json
-from parser import Parser
+import telebot
+from parser_bot import Parser
+import os
 
-with open("config.json", "r") as f:  # Считываем данные из конфига
-    config = json.load(f)
+with open(f'{os.path.dirname(os.path.abspath(__file__))}/config.json','r') as f:  # Считываем данные из конфиг.
+    # os.path.dirname - получение папки из полного пути os.path.abspath(__file__) - получение полного пути для запущеного файла
+     config = json.load(f)
 
 help_msg = 'телебот показывает курс валют в обменнике Обмен 24. Сам обменник работает кругласуточно и находится на ул. Сачко 5'
 button1 = 'USD/UAH - EUR/UAH'
@@ -46,15 +47,14 @@ def seng_text(message):
         file_id = 'CAACAgIAAxkBAANNX4l8JPW7U4mE4cJZYb24i9FLRkUAArAFAAJjK-IJvDIz3H7MRNQbBA'
         bot.send_sticker(message.chat.id, file_id)
     if message.text.lower() == "курс":
-        bot.send_message(message.chat.id, time.asctime())
         bot.send_message(message.chat.id, "доллар/гривна " + parser.course.get('USD/UAH'))
     if message.text == button1:
-        bot.send_message(message.chat.id, time.asctime())
         bot.send_message(message.chat.id,
                          "доллар/гривна " + parser.course.get('USD/UAH') + '   ' + "евро/гривна " + parser.course.get(
                              'EUR/UAH'))
     if message.text == button2:
-        bot.send_message(message.chat.id, str(parser.course))
+        text_all_course=json.dumps(parser.course, indent=4, ensure_ascii=False).replace('{','').replace('}','')
+        bot.send_message(message.chat.id, text_all_course)
     if message.text == button3:
         bot.send_message(message.chat.id, parser.address)
     if message.text == button4:
