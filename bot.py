@@ -53,7 +53,7 @@ def seng_text(message):
                          "доллар/гривна " + parser.course.get('USD/UAH') + '   ' + "евро/гривна " + parser.course.get(
                              'EUR/UAH'))
     if message.text == button2:
-        text_all_course=json.dumps(parser.course, indent=4, ensure_ascii=False).replace('{','').replace('}','')
+        text_all_course=json.dumps(parser.course, indent=1, ensure_ascii=False).replace('{','').replace('}','')
         bot.send_message(message.chat.id, text_all_course)
     if message.text == button3:
         bot.send_message(message.chat.id, parser.address)
